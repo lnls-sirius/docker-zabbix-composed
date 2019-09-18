@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+
+  zabbix-agent:
+    image: zabbix/zabbix-agent:ubuntu-4.0.12
+    container_name: zabbix-agent-1
+    ports:
+      - "10050:10050"
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      # - type: bind
+      #   source: ./zbx_env/etc/zabbix/zabbix_agentd.d
+      #   target: /etc/zabbix/zabbix_agentd.d
+      #   read_only: true
+      # - type: bind
+      #   source: ./zbx_env/var/lib/zabbix/modules
+      #   target: /var/lib/zabbix/modules
+      #   read_only: true
+      # - type: bind
+      #   source: ./zbx_env/var/lib/zabbix/enc
+      #   target: /var/lib/zabbix/enc
+      #   read_only: true
+      # - type: bind
+      #   source: ./zbx_env/var/lib/zabbix/ssh_keys
+      #   target: /var/lib/zabbix/ssh_keys
+      #   read_only: true
+
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+    dns: 10.128.255.7
+    dns_search: lnls-sirius.com.br

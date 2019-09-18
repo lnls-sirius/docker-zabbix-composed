@@ -28,7 +28,20 @@ services:
       #   source: ./zbx_env/var/lib/zabbix/ssh_keys
       #   target: /var/lib/zabbix/ssh_keys
       #   read_only: true
-
+    env_file:
+     - .env_agent
+    user: root
+    privileged: true
+    pid: "host"
+    logging:
+      options:
+        max-size: 50m
+    stop_grace_period: 5s
+    labels:
+      com.zabbix.description: "Zabbix agent"
+      com.zabbix.company: "Zabbix SIA"
+      com.zabbix.component: "zabbix-agentd"
+      com.zabbix.os: "ubuntu"
     deploy:
       mode: global
       placement:

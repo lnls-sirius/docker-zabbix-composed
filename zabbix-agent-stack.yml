@@ -5,8 +5,8 @@ services:
   zabbix-agent:
     image: zabbix/zabbix-agent:ubuntu-4.0.12
     container_name: zabbix-agent-1
-    ports:
-      - "10050:10050"
+    # ports:
+    #   - "10050:10050"
     volumes:
       - type: bind
         source: /etc/localtime
@@ -32,6 +32,8 @@ services:
      - .env_agent
     user: root
     privileged: true
+    networks:
+      - zbx_net_backend
     pid: "host"
     logging:
       options:
@@ -48,3 +50,8 @@ services:
         constraints: [node.platform.os == linux]
     dns: 10.128.255.7
     dns_search: lnls-sirius.com.br
+
+networks:
+  zbx_net_backend:
+    external:
+      name: "host"
